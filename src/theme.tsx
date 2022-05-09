@@ -21,6 +21,23 @@ declare module '@mui/material/Typography' {
   }
 }
 
+export const StyledDivider = styled(Divider)(({ theme }) => ({
+  borderColor: theme.palette.divider,
+  marginTop: theme.spacing(2),
+  marginBottom: theme.spacing(2),
+  marginLeft: theme.spacing(0),
+  marginRight: theme.spacing(0),
+}));
+
+export const BtnStyleOutline = {
+  color: 'text.primary',
+  border: 'none',
+  borderRadius: '15px',
+  background: 'rgba(0, 0, 0, 0.2)',
+  padding: '8px 15px',
+  textTransform: 'capitalize',
+};
+
 export const theme = createTheme({
   palette: {
     primary: {
@@ -60,20 +77,3 @@ export const theme = createTheme({
     },
   },
 });
-
-export const StyledDivider = styled(Divider)(({ theme }) => ({
-  borderColor: theme.palette.divider,
-  marginTop: theme.spacing(2),
-  marginBottom: theme.spacing(2),
-  marginLeft: theme.spacing(0),
-  marginRight: theme.spacing(0),
-}));
-
-export const BtnStyleOutline = {
-  color: 'text.primary',
-  border: 'none',
-  borderRadius: '15px',
-  background: 'rgba(0, 0, 0, 0.2)',
-  padding: '8px 15px',
-  textTransform: 'capitalize',
-};

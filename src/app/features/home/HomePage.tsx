@@ -2,15 +2,16 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect } from 'react';
 import { Snackbar } from '@mui/material';
 import styled from '@emotion/styled';
+import { useNavigate } from 'react-router-dom';
 import ModalContainer from '../../common/modals/ModalContainer';
 import { useStore } from '../../stores/store';
-import { history } from '../../../index';
 import Login from '../auth/Login';
 import bgimg from '../../assets/auth_background.jpg';
 import { CsmAlert } from '../../common/modals/CsmAlert';
 
 export default observer(() => {
   const { authStore, modalStore } = useStore();
+  const navigate = useNavigate();
 
   const AuthWrapper = styled.div`
     height: 100%;
@@ -21,7 +22,7 @@ export default observer(() => {
 
   useEffect(() => {
     if (authStore.isLoggedIn) {
-      history.push('/manage');
+      navigate('/manage');
     } else {
       modalStore.openModal(<Login />);
     }
