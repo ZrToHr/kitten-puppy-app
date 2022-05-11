@@ -17,7 +17,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-      {/* <Route
+      <Route
         path="/manage"
         element={
           <RouteProtector>
@@ -33,7 +33,7 @@ function App() {
           </RouteProtector>
         }
       />
-      <Route path="*" element={<ViewHighlights />} /> */}
+      <Route path="*" element={<ViewHighlights />} />
     </Routes>
   );
 }

@@ -5,10 +5,10 @@ name: CI/CD
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the main branch
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+  # push:
+  #   branches: [ main ]
+  # pull_request:
+  #   branches: [ main ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,7 +24,7 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
+
       # Retrieve AWS Credentials from Github repo
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
@@ -42,6 +42,6 @@ jobs:
         run: |
           yarn install
           yarn build
-          
+
       - name: Deploy to S3
         run: aws s3 sync ./build/ s3://happy-cat-frontend --delete

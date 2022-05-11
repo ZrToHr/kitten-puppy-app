@@ -11,10 +11,8 @@ export default function RouteProtector({ children }: Props) {
     authStore: { isLoggedIn },
   } = useStore();
 
-  const location = useLocation;
-
   if (!isLoggedIn) {
-    return <Navigate to="/" state={{ from: location }} replace />;
+    return <Navigate to="/" />;
   }
 
   return children;
