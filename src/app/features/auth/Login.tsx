@@ -29,13 +29,13 @@ export default function Login() {
     <>
       <Typography variant="title">Sign In</Typography>
       <Typography variant="subtext">
-        Build your shared cloud albums specifically for your pets.
+        Build your cloud albums for your kitten and puppy.
       </Typography>
 
       <Formik
         validationSchema={validationSchema}
         initialValues={credientials}
-        onSubmit={(values) => {
+        onSubmit={async (values) => {
           authStore.login(values);
         }}
       >
@@ -55,6 +55,7 @@ export default function Login() {
               <CsmFormField
                 fullWidth
                 name="password"
+                type="password"
                 startAdornment={
                   <InputAdornment position="start">
                     <LockOutlinedIcon />
@@ -84,7 +85,7 @@ export default function Login() {
           variant="subtext"
           sx={{ fontWeight: 'bold', display: 'inline', cursor: 'pointer' }}
           onClick={() => {
-            modalStore.updateModalBoday(<Signup />);
+            modalStore.updateModalBody(<Signup />);
           }}
         >
           &nbsp; Sign up

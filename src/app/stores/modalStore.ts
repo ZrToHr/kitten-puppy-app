@@ -28,7 +28,7 @@ export default class ModalStore {
     this.modal.body = null;
   };
 
-  updateModalBoday = (content: JSX.Element) => {
+  updateModalBody = (content: JSX.Element) => {
     this.modal = { ...this.modal, body: content };
   };
 

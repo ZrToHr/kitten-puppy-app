@@ -15,18 +15,25 @@ import * as Yup from 'yup';
 import Login from './Login';
 import { useStore } from '../../stores/store';
 import CsmFormField from '../../common/form/CsmFormField';
+import CsmLoadingBtn from '../../common/button/CsmLoadingBtn';
 import { BtnStyleOutline, StyledDivider } from '../../../theme';
 import { CogAuthSignUp, CogAuthVeriCode } from '../../models/CogAuth';
 
 export default function Signup() {
-  const { modalStore } = useStore();
+  const { modalStore, authStore } = useStore();
 
   const [signUpState, setSignUpState] = useState('first');
 
   const validationSchema = Yup.object({
-    username: Yup.string().required('Username is required'),
-    email: Yup.string().required('Email address is required'),
-    password: Yup.string().required('Password is required'),
+    username: Yup.string().required('username is required'),
+    email: Yup.string().required('email address is required').email(),
+    password: Yup.string()
+      .required('password is required')
+      .min(12, 'password must have at least 12 characters')
+      .matches(/[0-9]+/, 'password must have one digit')
+      .matches(/[!@#$%^&*)(+=._-]+/, 'password must have one special character')
+      .matches(/[a-z]+/, 'password must have one lower case')
+      .matches(/[A-Z]+/, 'password must have one upper case'),
   });
 
   const credentials: CogAuthSignUp = {
@@ -43,11 +50,12 @@ export default function Signup() {
     veriCode: '',
   };
 
-  const handleSignUp = (values: CogAuthSignUp) => {
+  const handleSignUp = async (values: CogAuthSignUp) => {
+    await authStore;
     setSignUpState('second');
   };
 
-  const handleCodeVerification = (values: CogAuthVeriCode) => {
+  const handleCodeVerification = async (values: CogAuthVeriCode) => {
     console.log('Verfication Submitted');
   };
 
@@ -56,8 +64,8 @@ export default function Signup() {
       return (
         <>
           <Typography variant="subtext">
-            Simply register your account with your email. Note your password
-            must contain at least 8 characters.
+            Register your account with your email. Note your password must
+            contain at least 8 characters.
           </Typography>
 
           <Formik
@@ -65,7 +73,7 @@ export default function Signup() {
             initialValues={credentials}
             onSubmit={handleSignUp}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, isSubmitting }) => (
               <Form onSubmit={handleSubmit} autoComplete="off">
                 <Stack spacing={2} sx={{ marginTop: 2, marginBottom: 2 }}>
                   <CsmFormField
@@ -91,6 +99,7 @@ export default function Signup() {
                   <CsmFormField
                     fullWidth
                     name="password"
+                    type="password"
                     startAdornment={
                       <InputAdornment position="start">
                         <LockOutlinedIcon />
@@ -98,19 +107,15 @@ export default function Signup() {
                     }
                   />
 
-                  <Button
+                  <CsmLoadingBtn
                     fullWidth
                     sx={BtnStyleOutline}
                     variant="contained"
                     type="submit"
+                    loading={isSubmitting}
                   >
-                    <CircularProgress
-                      color="inherit"
-                      size={16}
-                      sx={{ marginRight: '8px' }}
-                    />
                     Sign up
-                  </Button>
+                  </CsmLoadingBtn>
                 </Stack>
               </Form>
             )}
@@ -136,7 +141,7 @@ export default function Signup() {
             initialValues={veriObject}
             onSubmit={handleCodeVerification}
           >
-            {({ handleSubmit }) => (
+            {({ handleSubmit, isSubmitting }) => (
               <Form onSubmit={handleSubmit} autoComplete="off">
                 <Stack spacing={2} sx={{ marginTop: 2, marginBottom: 2 }}>
                   <CsmFormField
@@ -149,19 +154,15 @@ export default function Signup() {
                     }
                   />
 
-                  <Button
+                  <CsmLoadingBtn
                     fullWidth
                     sx={BtnStyleOutline}
                     variant="contained"
                     type="submit"
+                    loading={isSubmitting}
                   >
-                    <CircularProgress
-                      color="inherit"
-                      size={16}
-                      sx={{ marginRight: '8px' }}
-                    />
                     Verify
-                  </Button>
+                  </CsmLoadingBtn>
                 </Stack>
               </Form>
             )}
@@ -186,7 +187,7 @@ export default function Signup() {
           variant="subtext"
           sx={{ fontWeight: 'bold', display: 'inline', cursor: 'pointer' }}
           onClick={() => {
-            modalStore.updateModalBoday(<Login />);
+            modalStore.updateModalBody(<Login />);
           }}
         >
           &nbsp; Sign in
