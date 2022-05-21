@@ -7,13 +7,12 @@ import ModalContainer from '../../common/modals/ModalContainer';
 import { useStore } from '../../stores/store';
 import Login from '../auth/Login';
 import bgimg from '../../assets/auth_background.jpg';
-import { CsmAlert } from '../../common/modals/CsmAlert';
 
 export default observer(() => {
   const { authStore, modalStore } = useStore();
   const navigate = useNavigate();
 
-  const AuthWrapper = styled.div`
+  const StyledHomePage = styled.div`
     height: 100%;
     background: url(${bgimg});
     background-repeat: no-repeat;
@@ -29,21 +28,8 @@ export default observer(() => {
   }, [authStore, modalStore]);
 
   return (
-    <AuthWrapper>
-      <Snackbar
-        open={modalStore.msgBar}
-        onClose={modalStore.closeMsgBar}
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-      >
-        <CsmAlert
-          onClose={modalStore.closeMsgBar}
-          severity="error"
-          sx={{ width: '100%' }}
-        >
-          This is a success message!
-        </CsmAlert>
-      </Snackbar>
+    <StyledHomePage>
       <ModalContainer />
-    </AuthWrapper>
+    </StyledHomePage>
   );
 });

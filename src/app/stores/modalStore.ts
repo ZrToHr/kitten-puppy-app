@@ -5,13 +5,21 @@ interface Modal {
   body: JSX.Element | null;
 }
 
+interface Snackbar {
+  open: boolean;
+  type?: string;
+  message?: string;
+}
+
 export default class ModalStore {
   modal: Modal = {
     open: false,
     body: null,
   };
 
-  msgBar = false;
+  snackbar: Snackbar = {
+    open: false,
+  };
 
   constructor() {
     makeAutoObservable(this);
@@ -32,15 +40,16 @@ export default class ModalStore {
     this.modal = { ...this.modal, body: content };
   };
 
-  openMsgBar = () => {
-    this.msgBar = true;
+  openSnackBar = (message: string) => {
+    this.snackbar.open = true;
+    this.snackbar.message = message;
   };
 
-  closeMsgBar = (event?: React.SyntheticEvent | Event, reason?: string) => {
+  cloesSnackBar = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
 
-    this.msgBar = false;
+    this.snackbar.open = false;
   };
 }

@@ -8,6 +8,7 @@ import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import { store, StoreContext } from './app/stores/store';
 import { theme } from './theme';
+import AlertContainer from './app/common/modals/AlertContainer';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -16,6 +17,7 @@ root.render(
   <StoreContext.Provider value={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <AlertContainer />
       <Router>
         <App />
       </Router>
