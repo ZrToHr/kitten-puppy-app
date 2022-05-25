@@ -1,19 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ManageHighlights from '../features/highlights/ManageHighlights';
 import UploadHighlights from '../features/highlights/UploadHighlights';
 import ViewHighlights from '../features/highlights/ViewHighlights';
 import HomePage from '../features/home/HomePage';
-import { useStore } from '../stores/store';
 import RouteProtector from './RouteProtector';
 
 function App() {
-  const { authStore } = useStore();
-
-  useEffect(() => {
-    console.log('check user islogged in before rendering the app');
-    authStore.checkAuth();
-  }, [authStore]);
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />

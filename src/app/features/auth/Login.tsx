@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import { InputAdornment, Typography } from '@mui/material';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
@@ -6,15 +6,14 @@ import Stack from '@mui/material/Stack';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Signup from './Signup';
-import { useStore } from '../../stores/store';
 import CsmFormField from '../../common/form/CsmFormField';
 import { BtnStyleOutline, StyledDivider } from '../../../theme';
 import CsmLoadingBtn from '../../common/button/CsmLoadingBtn';
 import { CogAuthLogin } from '../../models/CogAuth';
+import { useAppDispatch } from '../../store/store-hooks';
+import { openModal } from '../../common/modal/modal-slice';
 
 export default function Login() {
-  const { modalStore, authStore } = useStore();
-
   const validationSchema = Yup.object({
     username: Yup.string().required('Email address is required'),
     password: Yup.string().required('Password is required'),
@@ -24,6 +23,12 @@ export default function Login() {
     username: '',
     password: '',
   };
+
+  const dispatch = useAppDispatch();
+
+  const onSignUpSwitch = useCallback(() => {
+    dispatch(openModal(<Signup />));
+  }, [openModal]);
 
   return (
     <>
@@ -35,8 +40,8 @@ export default function Login() {
       <Formik
         validationSchema={validationSchema}
         initialValues={credientials}
-        onSubmit={async (values) => {
-          authStore.login(values);
+        onSubmit={(values) => {
+          console.log('To do');
         }}
       >
         {({ handleSubmit, isSubmitting }) => (
@@ -84,9 +89,7 @@ export default function Login() {
         <Typography
           variant="subtext"
           sx={{ fontWeight: 'bold', display: 'inline', cursor: 'pointer' }}
-          onClick={() => {
-            modalStore.updateModalBody(<Signup />);
-          }}
+          onClick={onSignUpSwitch}
         >
           &nbsp; Sign up
         </Typography>

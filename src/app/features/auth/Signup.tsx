@@ -1,10 +1,5 @@
-import React, { useState } from 'react';
-import {
-  Button,
-  CircularProgress,
-  InputAdornment,
-  Typography,
-} from '@mui/material';
+import React, { useCallback, useState } from 'react';
+import { InputAdornment, Typography } from '@mui/material';
 import MailOutlinedIcon from '@mui/icons-material/MailOutlined';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import PersonOutlinedIcon from '@mui/icons-material/PersonOutlined';
@@ -13,15 +8,14 @@ import Stack from '@mui/material/Stack';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import Login from './Login';
-import { useStore } from '../../stores/store';
 import CsmFormField from '../../common/form/CsmFormField';
 import CsmLoadingBtn from '../../common/button/CsmLoadingBtn';
 import { BtnStyleOutline, StyledDivider } from '../../../theme';
 import { CogAuthSignUp, CogAuthVeriCode } from '../../models/CogAuth';
+import { useAppDispatch } from '../../store/store-hooks';
+import { openModal } from '../../common/modal/modal-slice';
 
 export default function Signup() {
-  const { modalStore, authStore } = useStore();
-
   const [signUpState, setSignUpState] = useState('first');
 
   const validationSchema = Yup.object({
@@ -50,8 +44,13 @@ export default function Signup() {
     veriCode: '',
   };
 
+  const dispatch = useAppDispatch();
+
+  const onSignInSwitch = useCallback(() => {
+    dispatch(openModal(<Login />));
+  }, [openModal]);
+
   const handleSignUp = async (values: CogAuthSignUp) => {
-    await authStore;
     setSignUpState('second');
   };
 
@@ -186,9 +185,7 @@ export default function Signup() {
         <Typography
           variant="subtext"
           sx={{ fontWeight: 'bold', display: 'inline', cursor: 'pointer' }}
-          onClick={() => {
-            modalStore.updateModalBody(<Login />);
-          }}
+          onClick={onSignInSwitch}
         >
           &nbsp; Sign in
         </Typography>

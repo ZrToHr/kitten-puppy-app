@@ -4,17 +4,18 @@ import './index.css';
 import { ThemeProvider } from '@mui/system';
 import { CssBaseline } from '@mui/material';
 import { BrowserRouter as Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
-import { store, StoreContext } from './app/stores/store';
+import { store } from './app/store/store';
 import { theme } from './theme';
-import AlertContainer from './app/common/modals/AlertContainer';
+import AlertContainer from './app/common/snackbar/AlertContainer';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <StoreContext.Provider value={store}>
+  <Provider store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AlertContainer />
@@ -22,7 +23,7 @@ root.render(
         <App />
       </Router>
     </ThemeProvider>
-  </StoreContext.Provider>,
+  </Provider>,
 );
 
 // If you want to start measuring performance in your app, pass a function

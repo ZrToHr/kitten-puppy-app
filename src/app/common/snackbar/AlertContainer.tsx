@@ -1,12 +1,9 @@
 import MuiAlert, { AlertProps } from '@mui/material/Alert';
 import { Snackbar } from '@mui/material';
-import { observer } from 'mobx-react-lite';
 import React from 'react';
-import { useStore } from '../../stores/store';
+import { useAppDispatch, useAppSelector } from '../../store/store-hooks';
 
-export default observer(() => {
-  const { modalStore } = useStore();
-
+export default function AlertContainer() {
   const CsmAlert = React.forwardRef<HTMLDivElement, AlertProps>(
     (props, ref) => (
       <MuiAlert
@@ -19,19 +16,22 @@ export default observer(() => {
     ),
   );
 
+  const {
+    open: isOpen,
+    message,
+    type,
+  } = useAppSelector((state) => state.snackbar);
+
+  const dispatch = useAppDispatch();
+
   return (
     <Snackbar
-      open={modalStore.msgBar}
-      onClose={modalStore.closeMsgBar}
+      open={isOpen}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
     >
-      <CsmAlert
-        onClose={modalStore.closeMsgBar}
-        severity="error"
-        sx={{ width: '100%' }}
-      >
+      <CsmAlert severity="error" sx={{ width: '100%' }}>
         This is a success message!
       </CsmAlert>
     </Snackbar>
   );
-});
+}
