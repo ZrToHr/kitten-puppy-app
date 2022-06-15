@@ -22,7 +22,7 @@ let IdToken: CognitoIdToken;
 let cognitoSession: CognitoUserSession;
 
 const testAsync = () =>
-  new Promise((resolve) => {
+  new Promise<string>((resolve) => {
     setTimeout(() => {
       console.log('in timeout');
       resolve('succeeded');
@@ -34,10 +34,7 @@ const signUp = () =>
     const attributeList: CognitoUserAttribute[] = [];
     userPool.signUp('username', 'password', attributeList, [], (err) => {
       if (err) {
-        console.log(
-          'Sign Up Cognito User Errors: ',
-          err.message || JSON.stringify(err),
-        );
+        console.log('Sign Up Cognito User Errors: ', err.message || JSON.stringify(err));
         reject(err);
       }
       resolve(true);
@@ -94,22 +91,18 @@ const forgotPassword = (username: string) =>
 
     cognitoUser.forgotPassword({
       onSuccess(data) {
-        throw new Error('Not impplemented');
+        throw new Error('Not implemented');
       },
       onFailure(data) {
-        throw new Error('Not impplemented');
+        throw new Error('Not implemented');
       },
       inputVerificationCode(data) {
-        throw new Error('Not impplemented');
+        throw new Error('Not implemented');
       },
     });
   });
 
-const confirmNewPassword = (
-  username: string,
-  verficationCode: string,
-  newPassword: string,
-) =>
+const confirmNewPassword = (username: string, verficationCode: string, newPassword: string) =>
   new Promise((resolve, reject) => {
     const userData: ICognitoUserData = {
       Username: username,
