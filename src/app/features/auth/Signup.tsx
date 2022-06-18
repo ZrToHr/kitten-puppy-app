@@ -13,7 +13,7 @@ import CsmLoadingBtn from '../../common/button/CsmLoadingBtn';
 import { BtnStyleOutline, StyledDivider } from '../../../theme';
 import { CogAuthSignUp, CogAuthVeriCode } from '../../models/CogAuth';
 import { useAppDispatch } from '../../store/store-hooks';
-import { openModal } from '../../common/modal/modal-slice';
+import { openSignIn } from '../../common/modal/modal-slice';
 
 export default function Signup() {
   const [signUpState, setSignUpState] = useState('first');
@@ -47,8 +47,8 @@ export default function Signup() {
   const dispatch = useAppDispatch();
 
   const onSignInSwitch = useCallback(() => {
-    dispatch(openModal(<Login />));
-  }, [openModal]);
+    dispatch(openSignIn());
+  }, []);
 
   const handleSignUp = async (values: CogAuthSignUp) => {
     setSignUpState('second');
@@ -63,15 +63,10 @@ export default function Signup() {
       return (
         <>
           <Typography variant="subtext">
-            Register your account with your email. Note your password must
-            contain at least 8 characters.
+            Register your account with your email. Note your password must contain at least 8 characters.
           </Typography>
 
-          <Formik
-            validationSchema={validationSchema}
-            initialValues={credentials}
-            onSubmit={handleSignUp}
-          >
+          <Formik validationSchema={validationSchema} initialValues={credentials} onSubmit={handleSignUp}>
             {({ handleSubmit, isSubmitting }) => (
               <Form onSubmit={handleSubmit} autoComplete="off">
                 <Stack spacing={2} sx={{ marginTop: 2, marginBottom: 2 }}>
@@ -113,7 +108,7 @@ export default function Signup() {
                     type="submit"
                     loading={isSubmitting}
                   >
-                    Sign up
+                    Sign Up
                   </CsmLoadingBtn>
                 </Stack>
               </Form>
@@ -121,8 +116,7 @@ export default function Signup() {
           </Formik>
 
           <Typography variant="subtext">
-            By clicking on Sign up, you agree to our Terms of service and
-            Privacy policy.
+            By clicking on Sign Up, you agree to our Terms of service and Privacy policy.
           </Typography>
         </>
       );
@@ -132,14 +126,9 @@ export default function Signup() {
       return (
         <>
           <Typography variant="subtext">
-            Verification code has been to your email. Please verify your email
-            address and finalize your registration。
+            Verification code has been to your email. Please verify your email address and finalize your registration。
           </Typography>
-          <Formik
-            validationSchema={codeValidationSchema}
-            initialValues={veriObject}
-            onSubmit={handleCodeVerification}
-          >
+          <Formik validationSchema={codeValidationSchema} initialValues={veriObject} onSubmit={handleCodeVerification}>
             {({ handleSubmit, isSubmitting }) => (
               <Form onSubmit={handleSubmit} autoComplete="off">
                 <Stack spacing={2} sx={{ marginTop: 2, marginBottom: 2 }}>
@@ -187,7 +176,7 @@ export default function Signup() {
           sx={{ fontWeight: 'bold', display: 'inline', cursor: 'pointer' }}
           onClick={onSignInSwitch}
         >
-          &nbsp; Sign in
+          &nbsp; Sign In
         </Typography>
       </Typography>
     </>

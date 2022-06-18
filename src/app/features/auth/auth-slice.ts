@@ -1,5 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { CogAuthLogin } from '../../models/CogAuth';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -15,7 +16,7 @@ const authSlice = createSlice({
   name: 'authStore',
   initialState,
   reducers: {
-    InvokeSignIn(state) {
+    InvokeSignIn(state, action: PayloadAction<CogAuthLogin>) {
       state.isAuthing = true;
     },
     SignInSucceeded(state) {
@@ -32,6 +33,5 @@ const authSlice = createSlice({
   },
 });
 
-export const { InvokeSignIn, SignInSucceeded, SignInFailed, InvokeSignOut } =
-  authSlice.actions;
+export const { InvokeSignIn, SignInSucceeded, SignInFailed, InvokeSignOut } = authSlice.actions;
 export default authSlice.reducer;

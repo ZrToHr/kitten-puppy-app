@@ -3,6 +3,8 @@ import { styled } from '@mui/system';
 import React, { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/store-hooks';
 import { closeModal } from './modal-slice';
+import Login from '../../features/auth/Login';
+import Signup from '../../features/auth/Signup';
 
 export default function ModalContainer() {
   const StyledDialog = styled(Dialog)`
@@ -16,23 +18,21 @@ export default function ModalContainer() {
     }
   `;
 
-  const { open: modalState, body: modalContent } = useAppSelector(
-    (state) => state.modal,
-  );
+  const { open: modalOpen, signInOpen, signUpOpen } = useAppSelector((state) => state.modal);
 
   const dispatch = useAppDispatch();
 
-  const onDialogClose = useCallback(
-    (event: object, reason: string) => {
-      if (reason === 'backdropClick') return;
-      dispatch(closeModal());
-    },
-    [closeModal],
-  );
+  const onDialogClose = useCallback((event: object, reason: string) => {
+    if (reason === 'backdropClick') return;
+    dispatch(closeModal());
+  }, []);
 
   return (
-    <StyledDialog hideBackdrop open={modalState} onClose={onDialogClose}>
-      <DialogContent>{modalContent}</DialogContent>
+    <StyledDialog hideBackdrop open={modalOpen} onClose={onDialogClose}>
+      <DialogContent>
+        {signInOpen ? <Login /> : null}
+        {signUpOpen ? <Signup /> : null}
+      </DialogContent>
     </StyledDialog>
   );
 }

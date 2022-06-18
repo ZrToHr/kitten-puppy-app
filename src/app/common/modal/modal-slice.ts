@@ -1,30 +1,39 @@
 /* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 
 interface ModalState {
   open: boolean;
-  body: JSX.Element | null;
+  signInOpen: boolean;
+  signUpOpen: boolean;
 }
 
 const initialState: ModalState = {
   open: false,
-  body: null,
+  signInOpen: false,
+  signUpOpen: false,
 };
 
 const modalSlice = createSlice({
   name: 'modalStore',
   initialState,
   reducers: {
-    openModal(state, action: PayloadAction<JSX.Element>) {
+    openSignIn(state) {
       state.open = true;
-      state.body = action.payload;
+      state.signInOpen = true;
+      state.signUpOpen = false;
+    },
+    openSignUp(state) {
+      state.open = true;
+      state.signInOpen = false;
+      state.signUpOpen = true;
     },
     closeModal(state) {
       state.open = false;
-      state.body = null;
+      state.signInOpen = false;
+      state.signUpOpen = false;
     },
   },
 });
 
-export const { openModal, closeModal } = modalSlice.actions;
+export const { openSignIn, openSignUp, closeModal } = modalSlice.actions;
 export default modalSlice.reducer;

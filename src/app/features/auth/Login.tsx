@@ -11,7 +11,8 @@ import { BtnStyleOutline, StyledDivider } from '../../../theme';
 import CsmLoadingBtn from '../../common/button/CsmLoadingBtn';
 import { CogAuthLogin } from '../../models/CogAuth';
 import { useAppDispatch } from '../../store/store-hooks';
-import { openModal } from '../../common/modal/modal-slice';
+import { openSignUp } from '../../common/modal/modal-slice';
+import { InvokeSignIn } from './auth-slice';
 
 export default function Login() {
   const validationSchema = Yup.object({
@@ -19,31 +20,27 @@ export default function Login() {
     password: Yup.string().required('Password is required'),
   });
 
-  const credientials: CogAuthLogin = {
+  const initialCredentials: CogAuthLogin = {
     username: '',
     password: '',
   };
 
   const dispatch = useAppDispatch();
 
+  const onSignInSubmit = useCallback((credentials: CogAuthLogin) => {
+    dispatch(InvokeSignIn(credentials));
+  }, []);
+
   const onSignUpSwitch = useCallback(() => {
-    dispatch(openModal(<Signup />));
-  }, [openModal]);
+    dispatch(openSignUp());
+  }, []);
 
   return (
     <>
       <Typography variant="title">Sign In</Typography>
-      <Typography variant="subtext">
-        Build your cloud albums for your kitten and puppy.
-      </Typography>
+      <Typography variant="subtext">Build your cloud albums for your kitten and puppy.</Typography>
 
-      <Formik
-        validationSchema={validationSchema}
-        initialValues={credientials}
-        onSubmit={(values) => {
-          console.log('To do');
-        }}
-      >
+      <Formik validationSchema={validationSchema} initialValues={initialCredentials} onSubmit={onSignInSubmit}>
         {({ handleSubmit, isSubmitting }) => (
           <Form onSubmit={handleSubmit} autoComplete="off">
             <Stack spacing={2} sx={{ marginTop: 2, marginBottom: 2 }}>
@@ -68,13 +65,7 @@ export default function Login() {
                 }
               />
 
-              <CsmLoadingBtn
-                fullWidth
-                sx={BtnStyleOutline}
-                variant="contained"
-                type="submit"
-                loading={isSubmitting}
-              >
+              <CsmLoadingBtn fullWidth sx={BtnStyleOutline} variant="contained" type="submit" loading={isSubmitting}>
                 Sign in
               </CsmLoadingBtn>
             </Stack>
@@ -91,7 +82,7 @@ export default function Login() {
           sx={{ fontWeight: 'bold', display: 'inline', cursor: 'pointer' }}
           onClick={onSignUpSwitch}
         >
-          &nbsp; Sign up
+          &nbsp; Sign Up
         </Typography>
       </Typography>
     </>
