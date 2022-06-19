@@ -4,7 +4,7 @@ import React, { useCallback } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/store-hooks';
 import { closeModal } from './modal-slice';
 import Login from '../../features/auth/Login';
-import Signup from '../../features/auth/Signup';
+import SignUp from '../../features/auth/SignUp';
 
 export default function ModalContainer() {
   const StyledDialog = styled(Dialog)`
@@ -31,7 +31,7 @@ export default function ModalContainer() {
     <StyledDialog hideBackdrop open={modalOpen} onClose={onDialogClose}>
       <DialogContent>
         {signInOpen ? <Login /> : null}
-        {signUpOpen ? <Signup /> : null}
+        {signUpOpen ? <SignUp /> : null}
       </DialogContent>
     </StyledDialog>
   );

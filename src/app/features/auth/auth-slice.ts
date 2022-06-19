@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { CogAuthLogin } from '../../models/CogAuth';
+import { CogAuthLogin, CogAuthSignUp } from '../../models/CogAuth';
 
 interface AuthState {
   isLoggedIn: boolean;
@@ -30,8 +30,25 @@ const authSlice = createSlice({
     InvokeSignOut(state) {
       state.isLoggedIn = false;
     },
+    InvokeSignUp(state, action: PayloadAction<CogAuthSignUp>) {
+      state.isAuthing = true;
+    },
+    SignUpSucceeded(state) {
+      state.isAuthing = false;
+    },
+    SignUpFailed(state) {
+      state.isAuthing = false;
+    },
   },
 });
 
-export const { InvokeSignIn, SignInSucceeded, SignInFailed, InvokeSignOut } = authSlice.actions;
+export const {
+  InvokeSignIn,
+  SignInSucceeded,
+  SignInFailed,
+  InvokeSignOut,
+  InvokeSignUp,
+  SignUpSucceeded,
+  SignUpFailed,
+} = authSlice.actions;
 export default authSlice.reducer;

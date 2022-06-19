@@ -5,7 +5,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Stack from '@mui/material/Stack';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import Signup from './Signup';
+import SignUp from './SignUp';
 import CsmFormField from '../../common/form/CsmFormField';
 import { BtnStyleOutline, StyledDivider } from '../../../theme';
 import CsmLoadingBtn from '../../common/button/CsmLoadingBtn';

@@ -36,9 +36,7 @@ const StyledInput = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function CsmFormField(
-  props: RequiredBy<InputBaseProps, 'name'>,
-) {
+export default function CsmFormField(props: RequiredBy<InputBaseProps, 'name'>) {
   const { name } = props;
   const [field, meta] = useField(name);
   return (
@@ -46,10 +44,7 @@ export default function CsmFormField(
       <StyledInput {...field} {...props} />
       <ErrorMessage name={name}>
         {(msg) => (
-          <Typography
-            variant="subtext"
-            sx={{ color: '#D0BAD2', paddingTop: '4px' }}
-          >
+          <Typography variant="subtext" sx={{ color: '#D0BAD2', paddingTop: '4px' }}>
             {msg}
           </Typography>
         )}

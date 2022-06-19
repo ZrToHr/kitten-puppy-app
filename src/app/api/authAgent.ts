@@ -8,7 +8,7 @@ import {
   CognitoIdToken,
 } from 'amazon-cognito-identity-js';
 import { CognitoConfig } from '../configs/cognitoConfig';
-import { CogAuthLogin } from '../models/CogAuth';
+import { CogAuthLogin, CogAuthSignUp } from '../models/CogAuth';
 
 const poolData = {
   UserPoolId: CognitoConfig.userPoolId,
@@ -29,10 +29,14 @@ const testAsync = () =>
     }, 1000);
   });
 
-const signUp = () =>
-  new Promise((resolve, reject) => {
-    const attributeList: CognitoUserAttribute[] = [];
-    userPool.signUp('username', 'password', attributeList, [], (err) => {
+const signUp = (cogAuthSignUp: CogAuthSignUp) =>
+  new Promise<boolean>((resolve, reject) => {
+    const { username, password, email } = cogAuthSignUp;
+    const usernameAttribute = new CognitoUserAttribute({ Name: 'name', Value: username });
+    // const emailAttribute = new CognitoUserAttribute({ Name: 'email', Value: email });
+    const attributeList: CognitoUserAttribute[] = [usernameAttribute];
+
+    userPool.signUp(email, password, attributeList, [], (err) => {
       if (err) {
         console.log('Sign Up Cognito User Errors: ', err.message || JSON.stringify(err));
         reject(err);
