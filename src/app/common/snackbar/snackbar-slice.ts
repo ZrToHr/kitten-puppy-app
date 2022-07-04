@@ -1,14 +1,14 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-enum MessageType {
-  Error,
-  Warning,
+export enum MessageType {
+  Error = 'error',
+  Warning = 'warning',
 }
 
 interface SnackbarState {
   open: boolean;
-  type: MessageType | null;
+  type: MessageType;
   message: string | null;
 }
 
@@ -16,13 +16,11 @@ type RequiredNonNullableObject<T extends object> = {
   [P in keyof Required<T>]: NonNullable<T[P]>;
 };
 
-export type SnackbarPayload = RequiredNonNullableObject<
-  Omit<SnackbarState, 'open'>
->;
+export type SnackbarPayload = RequiredNonNullableObject<Omit<SnackbarState, 'open'>>;
 
 const initialState: SnackbarState = {
   open: false,
-  type: null,
+  type: MessageType.Error,
   message: null,
 };
 
@@ -38,7 +36,7 @@ const snackbarSlice = createSlice({
     closeSnackbar(state) {
       state.open = false;
       state.message = null;
-      state.type = null;
+      state.type = MessageType.Error;
     },
   },
 });

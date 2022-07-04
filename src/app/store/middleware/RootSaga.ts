@@ -1,4 +1,4 @@
-import { takeEvery, put, call } from 'redux-saga/effects';
+import { takeEvery, put, call, all, StrictEffect } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
   InvokeSignIn,
@@ -8,12 +8,13 @@ import {
   SignUpFailed,
   SignUpSucceeded,
 } from '../../features/auth/auth-slice';
+import { openRegistrationConfirm } from '../../common/modal/modal-slice';
 import authAgent from '../../api/authAgent';
 import { CogAuthLogin, CogAuthSignUp } from '../../models/CogAuth';
+import { MessageType, openSnackbar } from '../../common/snackbar/snackbar-slice';
 
 function* validateLoginCredential(action: PayloadAction<CogAuthLogin>) {
   try {
-    console.log('test saga payload', action.payload);
     // lied to typescript, need to fix it with proper type checking
     const result: string = yield call(authAgent.testAsync);
     yield put(SignInSucceeded());
@@ -22,12 +23,22 @@ function* validateLoginCredential(action: PayloadAction<CogAuthLogin>) {
   }
 }
 
-function* postSignUpCredential(action: PayloadAction<CogAuthSignUp>) {
+function* postSignUpCredential(action: PayloadAction<CogAuthSignUp>): Generator<StrictEffect, void, string> {
   try {
-    const result: boolean = yield call(authAgent.signUp, action.payload);
-    yield put(SignUpSucceeded());
-  } catch (e) {
+    yield call(authAgent.signUp, action.payload);
+    yield all([put(SignUpSucceeded()), put(openRegistrationConfirm())]);
+  } catch (error) {
+    const { message: msg } = error as Error;
+    yield put(openSnackbar({ message: msg, type: MessageType.Error }));
     yield put(SignUpFailed());
+  }
+}
+
+function* postConfirmationCode(action: PayloadAction<string>) {
+  try {
+    const result: boolean = yield call(authAgent.confirmRegistration, action.payload);
+  } catch (e) {
+    yield;
   }
 }
 

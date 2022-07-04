@@ -10,7 +10,7 @@ import CsmFormField from '../../common/form/CsmFormField';
 import { BtnStyleOutline, StyledDivider } from '../../../theme';
 import CsmLoadingBtn from '../../common/button/CsmLoadingBtn';
 import { CogAuthLogin } from '../../models/CogAuth';
-import { useAppDispatch } from '../../store/store-hooks';
+import { useAppDispatch, useAppSelector } from '../../store/store-hooks';
 import { openSignUp } from '../../common/modal/modal-slice';
 import { InvokeSignIn } from './auth-slice';
 
@@ -27,6 +27,8 @@ export default function Login() {
 
   const dispatch = useAppDispatch();
 
+  const { isAuthing: isSubmitting } = useAppSelector((state) => state.auth);
+
   const onSignInSubmit = useCallback((credentials: CogAuthLogin) => {
     dispatch(InvokeSignIn(credentials));
   }, []);
@@ -41,7 +43,7 @@ export default function Login() {
       <Typography variant="subtext">Build your cloud albums for your kitten and puppy.</Typography>
 
       <Formik validationSchema={validationSchema} initialValues={initialCredentials} onSubmit={onSignInSubmit}>
-        {({ handleSubmit, isSubmitting }) => (
+        {({ handleSubmit }) => (
           <Form onSubmit={handleSubmit} autoComplete="off">
             <Stack spacing={2} sx={{ marginTop: 2, marginBottom: 2 }}>
               <CsmFormField

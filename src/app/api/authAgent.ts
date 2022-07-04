@@ -38,7 +38,6 @@ const signUp = (cogAuthSignUp: CogAuthSignUp) =>
 
     userPool.signUp(email, password, attributeList, [], (err) => {
       if (err) {
-        console.log('Sign Up Cognito User Errors: ', err.message || JSON.stringify(err));
         reject(err);
       }
       resolve(true);
@@ -49,7 +48,7 @@ const signUp = (cogAuthSignUp: CogAuthSignUp) =>
  * users need to confirm their signup with confirmation code sent to them
  */
 const confirmRegistration = (code: string) =>
-  new Promise((resolve, reject) => {
+  new Promise<boolean>((resolve, reject) => {
     const cognitoUser = userPool.getCurrentUser();
 
     if (!cognitoUser) {
@@ -60,7 +59,7 @@ const confirmRegistration = (code: string) =>
       if (err) {
         reject(err);
       }
-      resolve('Registration Confirmed');
+      resolve(true);
     });
   });
 
