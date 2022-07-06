@@ -39,6 +39,15 @@ const authSlice = createSlice({
     SignUpFailed(state) {
       state.isAuthing = false;
     },
+    InvokeSignUpConfirmation(state, action: PayloadAction<string>) {
+      state.isAuthing = true;
+    },
+    SignUpConfirmationSucceeded(state) {
+      state.isAuthing = true;
+    },
+    SignUpConfirmationFailed(state) {
+      state.isAuthing = false;
+    },
   },
 });
 
@@ -50,5 +59,8 @@ export const {
   InvokeSignUp,
   SignUpSucceeded,
   SignUpFailed,
+  InvokeSignUpConfirmation,
+  SignUpConfirmationSucceeded,
+  SignUpConfirmationFailed,
 } = authSlice.actions;
 export default authSlice.reducer;

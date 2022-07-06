@@ -4,6 +4,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 export enum MessageType {
   Error = 'error',
   Warning = 'warning',
+  Info = 'info',
+  Success = 'success',
 }
 
 interface SnackbarState {

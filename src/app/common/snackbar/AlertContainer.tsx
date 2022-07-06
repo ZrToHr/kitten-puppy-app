@@ -11,7 +11,7 @@ export default function AlertContainer() {
   const { open: isOpen, message, type } = useAppSelector((state) => state.snackbar);
 
   return (
-    <Snackbar open={isOpen} autoHideDuration={6000} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+    <Snackbar open={isOpen} anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
       <CsmAlert severity={type} sx={{ width: '100%' }}>
         {message}
       </CsmAlert>
