@@ -17,3 +17,7 @@ body,
 #root {
   height: 100%;
 }
+
+.swipe-card{
+  height: 300px;
+}

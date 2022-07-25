@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 import ManageHighlights from '../features/highlights/ManageHighlights';
 import UploadHighlights from '../features/highlights/UploadHighlights';
-import ViewHighlights from '../features/highlights/ViewHighlights';
+import GalleryView from '../features/highlights/GalleryView';
 import HomePage from '../features/home/HomePage';
 import RouteProtector from './RouteProtector';
 
@@ -26,7 +26,7 @@ function App() {
           </RouteProtector>
         }
       />
-      <Route path="*" element={<ViewHighlights />} />
+      <Route path="*" element={<GalleryView />} />
     </Routes>
   );
 }

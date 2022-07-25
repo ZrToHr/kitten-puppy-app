@@ -15,11 +15,13 @@ import { openRegistrationConfirm, openSignIn } from '../../common/modal/modal-sl
 import authAgent from '../../api/authAgent';
 import { CogAuthLogin, CogAuthSignUp } from '../../models/CogAuth';
 import { closeSnackbar, MessageType, openSnackbar, SnackbarPayload } from '../../common/snackbar/snackbar-slice';
+import { history } from '../../../index';
 
 function* validateLoginCredential(action: PayloadAction<CogAuthLogin>) {
   try {
     yield call(authAgent.testAsync);
     yield put(SignInSucceeded());
+    yield call(history.push, '/tests');
   } catch (e) {
     yield put(SignInFailed());
   }

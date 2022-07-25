@@ -3,25 +3,27 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import { ThemeProvider } from '@mui/system';
 import { CssBaseline } from '@mui/material';
-import { BrowserRouter as Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
+import { createBrowserHistory } from 'history';
 import App from './app/layout/App';
 import reportWebVitals from './reportWebVitals';
 import { store } from './app/store/store';
 import { theme } from './theme';
 import AlertContainer from './app/common/snackbar/AlertContainer';
+import { BrowserRouterWithHistory } from './app/layout/BrowserRouterWithHistory';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement,
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
+export const history = createBrowserHistory();
+
 root.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <AlertContainer />
-      <Router>
+      <BrowserRouterWithHistory history={history}>
         <App />
-      </Router>
+      </BrowserRouterWithHistory>
     </ThemeProvider>
   </Provider>,
 );
