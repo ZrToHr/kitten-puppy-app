@@ -18,6 +18,48 @@ body,
   height: 100%;
 }
 
-.swipe-card{
-  height: 300px;
+.flex {
+  position: fixed;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+.flex.fill {
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.flex.center {
+  justify-content: center;
+}
+
+.container {
+  background: lightblue;
+}
+
+.deck {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deck > div {
+  touch-action: none;
+  background-color: white;
+  background-size: auto 85%;
+  background-repeat: no-repeat;
+  background-position: center center;
+  width: 45vh;
+  max-width: 300px;
+  height: 85vh;
+  max-height: 570px;
+  will-change: transform;
+  border-radius: 10px;
+  box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
