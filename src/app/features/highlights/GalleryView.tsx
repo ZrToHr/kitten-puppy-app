@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
-import styled from '@emotion/styled';
 import { useSprings, animated, to as interpolate } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
-import bgimg from '../../assets/highlight_background.jpg';
-import lege from '../../assets/lege.jpeg';
 
 const cards = [
   'https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg',
@@ -67,11 +64,12 @@ function Deck() {
         // eslint-disable-next-line react/no-array-index-key
         <animated.div className="deck" key={i} style={{ x, y }}>
           {/* This is the card itself, we're binding our gesture to it (and inject its index so we know which is which) */}
-          <animated.div
+          <animated.img
+            className="deck-image"
             {...bind(i)}
             style={{
               transform: interpolate([rot, scale], trans),
-              backgroundImage: `url(${cards[i]})`,
+              content: `url(${cards[i]})`,
             }}
           />
         </animated.div>
@@ -81,42 +79,7 @@ function Deck() {
 }
 
 export default function GalleryView() {
-  // const GalleryBackground = styled.div`
-  //   height: 100%;
-  //   max-height: 100%;
-  //   background: url(${bgimg});
-  //   background-repeat: no-repeat;
-  //   background-size: cover;
-  // `;
-  //
-  // const GalleryBackdrop = styled.div`
-  //   height: 100%;
-  //   background: rgba(0, 0, 0, 0.2);
-  //   backdrop-filter: blur(14px);
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: center;
-  // `;
-  //
-  // const ImageWrapper = styled.div`
-  //   height: 90%;
-  // `;
-  //
-  // const Image = styled.img`
-  //   height: 100%;
-  //   object-fit: contain;
-  //   border: 10px solid #fff;
-  //   box-shadow: 0px 8px 16px 8px rgba(0, 0, 0, 0.4);
-  // `;
-
   return (
-    // <GalleryBackground>
-    //   <GalleryBackdrop>
-    //     <ImageWrapper>
-    //       <Image src={lege} alt="lege" />
-    //     </ImageWrapper>
-    //   </GalleryBackdrop>
-    // </GalleryBackground>
     <div className="flex fill center container">
       <Deck />
     </div>

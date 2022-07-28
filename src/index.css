@@ -1,21 +1,55 @@
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+  sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-    monospace;
+  monospace;
 }
 
 html,
 body,
 #root {
   height: 100%;
+}
+
+.deck-container {
+  position: fixed;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  max-height: 100%;
+  background: url("app/assets/highlight_background.jpg") no-repeat;
+  background-size: cover;
+}
+
+.deck-backdrop {
+  height: 100%;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(14px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.deck {
+  position: absolute;
+  height: 90%;
+  will-change: transform;
+}
+
+.deck-image {
+  height: 100%;
+  object-fit: contain;
+  border: 10px solid #fff;
+  touch-action: none;
+  will-change: transform;
+  box-shadow: 0 12.5px 100px -10px rgba(50, 50, 73, 0.4), 0 10px 10px -10px rgba(50, 50, 73, 0.3);
 }
 
 .flex {
@@ -39,15 +73,15 @@ body,
   background: lightblue;
 }
 
-.deck {
-  position: absolute;
-  width: 300px;
-  height: 200px;
-  will-change: transform;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+/*.deck {*/
+/*  position: absolute;*/
+/*  width: 300px;*/
+/*  height: 200px;*/
+/*  will-change: transform;*/
+/*  display: flex;*/
+/*  align-items: center;*/
+/*  justify-content: center;*/
+/*}*/
 
 .deck > div {
   touch-action: none;
