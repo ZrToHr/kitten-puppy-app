@@ -25,7 +25,7 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      # Retrieve AWS Credentials from Github repo
+      # Retrieve AWS Credentials from GitHub repo
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
@@ -38,7 +38,7 @@ jobs:
         with:
           node-version: 14
 
-      - name: Install Depedency and Build
+      - name: Install Dependency and Build
         run: |
           yarn install
           yarn build

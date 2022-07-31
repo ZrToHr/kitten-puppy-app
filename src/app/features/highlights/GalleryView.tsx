@@ -80,8 +80,10 @@ function Deck() {
 
 export default function GalleryView() {
   return (
-    <div className="flex fill center container">
-      <Deck />
+    <div className="deck-container">
+      <div className="deck-backdrop">
+        <Deck />
+      </div>
     </div>
   );
 }
