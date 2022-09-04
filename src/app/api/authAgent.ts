@@ -21,17 +21,12 @@ let IdToken: CognitoIdToken;
 
 let cognitoSession: CognitoUserSession;
 
-const testAsync = () =>
-  new Promise<string>((resolve) => {
-    setTimeout(() => {
-      console.log('in timeout');
-      resolve('succeeded');
-    }, 1000);
-  });
+let loginAlias: string;
 
 const signUp = (cogAuthSignUp: CogAuthSignUp) =>
   new Promise<boolean>((resolve, reject) => {
     const { username, password, email } = cogAuthSignUp;
+    loginAlias = email;
     const usernameAttribute = new CognitoUserAttribute({ Name: 'name', Value: username });
     // const emailAttribute = new CognitoUserAttribute({ Name: 'email', Value: email });
     const attributeList: CognitoUserAttribute[] = [usernameAttribute];
@@ -49,13 +44,18 @@ const signUp = (cogAuthSignUp: CogAuthSignUp) =>
  */
 const confirmRegistration = (code: string) =>
   new Promise<boolean>((resolve, reject) => {
-    const cognitoUser = userPool.getCurrentUser();
-
-    if (!cognitoUser) {
-      reject(new Error('CognitoUser Null'));
+    if (!loginAlias) {
+      reject(new Error('Login Alias null'));
     }
 
-    cognitoUser?.confirmRegistration(code, true, (err, result) => {
+    const userData: ICognitoUserData = {
+      Username: loginAlias,
+      Pool: userPool,
+    };
+
+    const cognitoUser = new CognitoUser(userData);
+
+    cognitoUser.confirmRegistration(code, true, (err, result) => {
       if (err) {
         reject(err);
       }
@@ -157,7 +157,7 @@ const login = (credentials: CogAuthLogin) =>
  * valid session should require users login one more time
  */
 const checkAuthentication = () =>
-  new Promise((resolve, reject) => {
+  new Promise((resolve) => {
     // getCurrentUser will read cognitoUser from localStorage
     const cognitoUser = userPool.getCurrentUser();
 
@@ -176,6 +176,19 @@ const checkAuthentication = () =>
 
       cognitoSession = session;
 
+      resolve(true);
+    });
+  });
+
+const signOut = () =>
+  new Promise((resolve) => {
+    // getCurrentUser will read cognitoUser from localStorage
+    const cognitoUser = userPool.getCurrentUser();
+
+    // if no cached cognitoUser, return false
+    if (!cognitoUser) resolve(false);
+
+    cognitoUser?.signOut(() => {
       resolve(true);
     });
   });
@@ -211,7 +224,7 @@ const authAgent = {
   checkAuthentication,
   refreshTokens,
   getIdToken,
-  testAsync,
+  signOut,
 };
 
 export default authAgent;

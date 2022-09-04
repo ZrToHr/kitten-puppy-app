@@ -5,11 +5,13 @@ import { CogAuthLogin, CogAuthSignUp } from '../../models/CogAuth';
 interface AuthState {
   isLoggedIn: boolean;
   isAuthing: boolean;
+  albumId: string;
 }
 
 const initialState: AuthState = {
   isLoggedIn: false,
   isAuthing: false,
+  albumId: '',
 };
 
 const authSlice = createSlice({
@@ -43,10 +45,15 @@ const authSlice = createSlice({
       state.isAuthing = true;
     },
     SignUpConfirmationSucceeded(state) {
-      state.isAuthing = true;
+      state.isAuthing = false;
     },
     SignUpConfirmationFailed(state) {
       state.isAuthing = false;
+    },
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
+    CheckAuthentication(state) {},
+    UserAuthenticated(state, action: PayloadAction<string>) {
+      state.isLoggedIn = true;
     },
   },
 });
@@ -62,5 +69,7 @@ export const {
   InvokeSignUpConfirmation,
   SignUpConfirmationSucceeded,
   SignUpConfirmationFailed,
+  CheckAuthentication,
+  UserAuthenticated,
 } = authSlice.actions;
 export default authSlice.reducer;

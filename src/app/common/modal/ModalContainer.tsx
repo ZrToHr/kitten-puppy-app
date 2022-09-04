@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from '../../store/store-hooks';
 import { closeModal } from './modal-slice';
 import Login from '../../features/auth/Login';
 import SignUp from '../../features/auth/SignUp';
+import RegistrationConfirm from '../../features/auth/RegistrationConfirm';
 
 export default function ModalContainer() {
   const StyledDialog = styled(Dialog)`
@@ -18,7 +19,7 @@ export default function ModalContainer() {
     }
   `;
 
-  const { open: modalOpen, signInOpen, signUpOpen } = useAppSelector((state) => state.modal);
+  const { open: modalOpen, signInOpen, signUpOpen, registrationConfirmOpen } = useAppSelector((state) => state.modal);
 
   const dispatch = useAppDispatch();
 
@@ -32,6 +33,7 @@ export default function ModalContainer() {
       <DialogContent>
         {signInOpen ? <Login /> : null}
         {signUpOpen ? <SignUp /> : null}
+        {registrationConfirmOpen ? <RegistrationConfirm /> : null}
       </DialogContent>
     </StyledDialog>
   );

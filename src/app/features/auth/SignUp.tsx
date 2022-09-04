@@ -20,7 +20,7 @@ export default function SignUp() {
     email: Yup.string().required('email address is required').email(),
     password: Yup.string()
       .required('password is required')
-      .min(12, 'password must have at least 12 characters')
+      .min(8, 'password must have at least 8 characters')
       .matches(/[0-9]+/, 'password must have one digit')
       .matches(/[!@#$%^&*)(+=._-]+/, 'password must have one special character')
       .matches(/[a-z]+/, 'password must have one lower case')

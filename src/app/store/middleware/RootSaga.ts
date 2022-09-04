@@ -19,9 +19,10 @@ import { history } from '../../../index';
 
 function* validateLoginCredential(action: PayloadAction<CogAuthLogin>) {
   try {
-    yield call(authAgent.testAsync);
+    yield call(authAgent.login, action.payload);
+    const userSub = authAgent.getIdToken().payload.sub;
     yield put(SignInSucceeded());
-    yield call(history.push, '/tests');
+    yield call(history.push, `/${userSub}`);
   } catch (e) {
     yield put(SignInFailed());
   }

@@ -6,12 +6,17 @@ import ModalContainer from '../../common/modal/ModalContainer';
 import bgimg from '../../assets/auth_background.jpg';
 import { useAppDispatch } from '../../store/store-hooks';
 import { openSignIn } from '../../common/modal/modal-slice';
+import { CheckAuthentication } from '../auth/auth-slice';
 
 export default function HomePage() {
   const navigate = useNavigate();
   const isLoggedIn = false;
 
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(CheckAuthentication);
+  }, []);
 
   useEffect(() => {
     if (isLoggedIn) {
