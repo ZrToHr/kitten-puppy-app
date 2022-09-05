@@ -21,9 +21,10 @@ const authSlice = createSlice({
     InvokeSignIn(state, action: PayloadAction<CogAuthLogin>) {
       state.isAuthing = true;
     },
-    SignInSucceeded(state) {
+    SignInSucceeded(state, action: PayloadAction<string>) {
       state.isAuthing = false;
       state.isLoggedIn = true;
+      state.albumId = action.payload;
     },
     SignInFailed(state) {
       state.isAuthing = false;
@@ -31,6 +32,7 @@ const authSlice = createSlice({
     },
     InvokeSignOut(state) {
       state.isLoggedIn = false;
+      state.albumId = '';
     },
     InvokeSignUp(state, action: PayloadAction<CogAuthSignUp>) {
       state.isAuthing = true;
@@ -54,6 +56,7 @@ const authSlice = createSlice({
     CheckAuthentication(state) {},
     UserAuthenticated(state, action: PayloadAction<string>) {
       state.isLoggedIn = true;
+      state.albumId = action.payload;
     },
   },
 });

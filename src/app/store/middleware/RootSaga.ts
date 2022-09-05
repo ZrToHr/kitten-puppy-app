@@ -1,7 +1,9 @@
 import { all, call, delay, put, takeEvery, takeLatest } from 'redux-saga/effects';
 import { PayloadAction } from '@reduxjs/toolkit';
 import {
+  CheckAuthentication,
   InvokeSignIn,
+  InvokeSignOut,
   InvokeSignUp,
   InvokeSignUpConfirmation,
   SignInFailed,
@@ -10,6 +12,7 @@ import {
   SignUpConfirmationSucceeded,
   SignUpFailed,
   SignUpSucceeded,
+  UserAuthenticated,
 } from '../../features/auth/auth-slice';
 import { openRegistrationConfirm, openSignIn } from '../../common/modal/modal-slice';
 import authAgent from '../../api/authAgent';
@@ -21,8 +24,8 @@ function* validateLoginCredential(action: PayloadAction<CogAuthLogin>) {
   try {
     yield call(authAgent.login, action.payload);
     const userSub = authAgent.getIdToken().payload.sub;
-    yield put(SignInSucceeded());
-    yield call(history.push, `/${userSub}`);
+    yield put(SignInSucceeded(userSub));
+    // yield call(history.push, `/${userSub}`);
   } catch (e) {
     yield put(SignInFailed());
   }
@@ -69,9 +72,23 @@ function* snackbarWatcher() {
   yield put(closeSnackbar());
 }
 
+function* checkAuthentication() {
+  const isLoggedIn: boolean = yield call(authAgent.checkAuthentication);
+  if (isLoggedIn) {
+    const userSub = authAgent.getIdToken().payload.sub;
+    yield put(UserAuthenticated(userSub));
+  }
+}
+
+function* clearUserSession() {
+  yield call(authAgent.signOut);
+}
+
 export default function* rootSage() {
   yield takeEvery(InvokeSignIn.type, validateLoginCredential);
   yield takeEvery(InvokeSignUp.type, postSignUpCredential);
   yield takeEvery(InvokeSignUpConfirmation.type, postConfirmationCode);
+  yield takeEvery(CheckAuthentication.type, checkAuthentication);
+  yield takeEvery(InvokeSignOut.type, clearUserSession);
   yield takeLatest(openSnackbar.type, snackbarWatcher);
 }

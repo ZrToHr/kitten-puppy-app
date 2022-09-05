@@ -1,26 +1,20 @@
 import React, { useEffect } from 'react';
-import { Snackbar } from '@mui/material';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import ModalContainer from '../../common/modal/ModalContainer';
 import bgimg from '../../assets/auth_background.jpg';
-import { useAppDispatch } from '../../store/store-hooks';
+import { useAppDispatch, useAppSelector } from '../../store/store-hooks';
 import { openSignIn } from '../../common/modal/modal-slice';
-import { CheckAuthentication } from '../auth/auth-slice';
 
 export default function HomePage() {
   const navigate = useNavigate();
-  const isLoggedIn = false;
 
   const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(CheckAuthentication);
-  }, []);
+  const { isLoggedIn, albumId } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('asdfasdf', { replace: true });
+      navigate(albumId, { replace: true });
     } else {
       dispatch(openSignIn());
     }

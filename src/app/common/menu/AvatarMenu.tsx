@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import IconButton from '@mui/material/IconButton';
 import Logout from '@mui/icons-material/Logout';
+import ListItemText from '@mui/material/ListItemText';
+import { useAppDispatch } from '../../store/store-hooks';
+import { InvokeSignOut } from '../../features/auth/auth-slice';
 
 export default function AvatarMenu() {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -15,6 +18,13 @@ export default function AvatarMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = useCallback(() => {
+    dispatch(InvokeSignOut());
+  }, []);
+
   return (
     <>
       <IconButton
@@ -25,7 +35,7 @@ export default function AvatarMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
       >
-        <Avatar sx={{ width: 32, height: 32 }}>M</Avatar>
+        <Avatar sx={{ width: 32, height: 32 }}>A</Avatar>
       </IconButton>
       <Menu
         anchorEl={anchorEl}
@@ -62,11 +72,11 @@ export default function AvatarMenu() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
-        <MenuItem>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          <ListItemText sx={{ color: 'rgba(0, 0, 0, 0.65)' }}>Logout</ListItemText>
         </MenuItem>
       </Menu>
     </>
