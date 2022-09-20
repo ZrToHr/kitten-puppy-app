@@ -3,6 +3,7 @@ import createSagaMiddleware from 'redux-saga';
 import modalSlice from '../common/modal/modal-slice';
 import snackbarSlice from '../common/snackbar/snackbar-slice';
 import authSlice from '../features/auth/auth-slice';
+import albumSlice from '../features/highlights/album-slice';
 import rootSage from './middleware/RootSaga';
 
 const sageMiddleware = createSagaMiddleware();
@@ -12,6 +13,7 @@ export const store = configureStore({
     modal: modalSlice,
     auth: authSlice,
     snackbar: snackbarSlice,
+    album: albumSlice,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(sageMiddleware),
 });

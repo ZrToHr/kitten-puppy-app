@@ -173,7 +173,6 @@ const checkAuthentication = () =>
       if (!session.isValid()) resolve(false);
 
       IdToken = session.getIdToken();
-
       cognitoSession = session;
 
       resolve(true);

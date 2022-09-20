@@ -16,9 +16,12 @@ import {
 } from '../../features/auth/auth-slice';
 import { openRegistrationConfirm, openSignIn } from '../../common/modal/modal-slice';
 import authAgent from '../../api/authAgent';
+import axiosAgent from '../../api/axiosAgent';
 import { CogAuthLogin, CogAuthSignUp } from '../../models/CogAuth';
 import { closeSnackbar, MessageType, openSnackbar, SnackbarPayload } from '../../common/snackbar/snackbar-slice';
 import { history } from '../../../index';
+import { Album, AlbumRetrieve, AlbumFile, AlbumUpload, AlbumPhoto } from '../../models/Album';
+import { ReceivedAlbum, RetrieveAlbum, UploadToAlbum } from '../../features/highlights/album-slice';
 
 function* validateLoginCredential(action: PayloadAction<CogAuthLogin>) {
   try {
@@ -84,6 +87,33 @@ function* clearUserSession() {
   yield call(authAgent.signOut);
 }
 
+function* retrieveAlbum(action: PayloadAction<string>) {
+  try {
+    const payload: AlbumRetrieve = {
+      UserId: action.payload,
+    };
+    const album: Album = yield call(axiosAgent.album.retrieve, payload);
+    yield put(ReceivedAlbum(album));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+function* uploadToAlbum(action: PayloadAction<AlbumFile>) {
+  try {
+    const payload: AlbumUpload = {
+      UserId: action.payload.UserId,
+      PhotoName: action.payload.PhotoFile.name,
+      PhotoType: action.payload.PhotoFile.type,
+    };
+    const photo: AlbumPhoto = yield call(axiosAgent.album.upload, payload);
+    yield call(axiosAgent.album.savePhoto, photo.PhotoSignedUrl!, action.payload.PhotoFile);
+    yield put(RetrieveAlbum(payload.UserId));
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export default function* rootSage() {
   yield takeEvery(InvokeSignIn.type, validateLoginCredential);
   yield takeEvery(InvokeSignUp.type, postSignUpCredential);
@@ -91,4 +121,6 @@ export default function* rootSage() {
   yield takeEvery(CheckAuthentication.type, checkAuthentication);
   yield takeEvery(InvokeSignOut.type, clearUserSession);
   yield takeLatest(openSnackbar.type, snackbarWatcher);
+  yield takeEvery(RetrieveAlbum.type, retrieveAlbum);
+  yield takeEvery(UploadToAlbum.type, uploadToAlbum);
 }

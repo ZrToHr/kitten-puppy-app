@@ -2,14 +2,9 @@ import React, { useState } from 'react';
 import { useSprings, animated, to as interpolate } from '@react-spring/web';
 import { useDrag } from '@use-gesture/react';
 
-const cards = [
-  'https://upload.wikimedia.org/wikipedia/commons/f/f5/RWS_Tarot_08_Strength.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/5/53/RWS_Tarot_16_Tower.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/9/9b/RWS_Tarot_07_Chariot.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/3/3a/TheLovers.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/RWS_Tarot_02_High_Priestess.jpg/690px-RWS_Tarot_02_High_Priestess.jpg',
-  'https://upload.wikimedia.org/wikipedia/commons/d/de/RWS_Tarot_01_Magician.jpg',
-];
+interface ImageDeckProps {
+  cards: string[];
+}
 
 // These two are just helpers, they curate spring data, values that are later being interpolated into css
 const to = (i: number) => ({
@@ -24,7 +19,7 @@ const from = (_i: number) => ({ x: 0, rot: 0, scale: 1.5, y: -1000 });
 const trans = (r: number, s: number) =>
   `perspective(1500px) rotateX(30deg) rotateY(${r / 10}deg) rotateZ(${r}deg) scale(${s})`;
 
-function ImageDeck() {
+function ImageDeck({ cards }: ImageDeckProps) {
   const [gone] = useState(() => new Set()); // The set flags all the cards that are flicked out
   const [props, api] = useSprings(cards.length, (i) => ({
     ...to(i),
