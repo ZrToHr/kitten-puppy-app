@@ -23,9 +23,9 @@ export default function AvatarMenu() {
     setAnchorEl(null);
   };
 
-  const dispatch = useAppDispatch();
-
   const { userId } = useAppSelector((state) => state.album);
+
+  const dispatch = useAppDispatch();
 
   const handleLogout = useCallback(() => {
     dispatch(InvokeSignOut());
@@ -35,16 +35,14 @@ export default function AvatarMenu() {
     uploadRef.current?.click();
   }, []);
 
-  const handleUploadOnChange = useCallback((e: any) => {
+  const handleUploadOnChange = (e: any) => {
     const file: File = e.target.files[0];
     const albumFile: AlbumFile = {
       UserId: userId,
       PhotoFile: file,
     };
-    console.log('upload DTO: ', albumFile);
-
-    // dispatch(UploadToAlbum(albumFile));
-  }, []);
+    dispatch(UploadToAlbum(albumFile));
+  };
 
   return (
     <>

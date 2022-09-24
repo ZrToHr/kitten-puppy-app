@@ -1,15 +1,13 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-  "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-  sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
-  monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 html,
@@ -24,7 +22,7 @@ body,
   max-height: 100%;
   position: fixed;
   overflow: hidden;
-  background: url("app/assets/highlight_background.jpg") no-repeat;
+  background: url('app/assets/highlight_background.jpg') no-repeat;
   background-size: cover;
 }
 
@@ -39,12 +37,13 @@ body,
 
 .deck {
   position: absolute;
+  padding-top: 64px;
   height: 85%;
   will-change: transform;
 }
 
 .deck-image {
-  height: 100%;
+  height: 80%;
   object-fit: contain;
   border: 10px solid #fff;
   touch-action: none;

@@ -18,7 +18,6 @@ const albumSlice = createSlice({
   reducers: {
     RetrieveAlbum(state, action: PayloadAction<string>) {},
     ReceivedAlbum(state, action: PayloadAction<Album>) {
-      console.log('test album: ', action.payload);
       state.albumPhotos = action.payload.AlbumPhotos;
       state.userId = action.payload.UserId;
     },
